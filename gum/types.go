@@ -10,3 +10,15 @@ type PackageDefinition struct {
 	Sources        []string
 	Files          []string
 }
+
+type PackageMetadata struct {
+	Name    string
+	Version string
+	Sources []string
+	/*
+		Sources []struct {
+			Url      string
+			Checksum string
+		}
+	*/
+}

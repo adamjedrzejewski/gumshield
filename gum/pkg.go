@@ -3,20 +3,9 @@ package gum
 import (
 	"bufio"
 	"gopkg.in/yaml.v3"
+	"os"
 	"strings"
 )
-
-type PackageMetadata struct {
-	Name    string
-	Version string
-	Sources []string
-	/*
-		Sources []struct {
-			Url      string
-			Checksum string
-		}
-	*/
-}
 
 const (
 	noSection = ""
@@ -41,6 +30,15 @@ func NewPackageDefinition(name, version string, sources []string, description, b
 		UninstallLogic: uninstallLogic,
 		Description:    description,
 	}
+}
+
+func ReadDefinitionFromFile(path string) (*PackageDefinition, error) {
+	content, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
+
+	return ParsePackageDefinition(string(content))
 }
 
 func ParsePackageDefinition(content string) (*PackageDefinition, error) {

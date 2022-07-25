@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/adamjedrzejewski/gumshield/gum"
 	"log"
-	"os"
 	"path/filepath"
 	// https://github.com/hellflame/argparse
 )
@@ -15,7 +14,7 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	pkg, err := readPackage(absDefinitionPath)
+	pkg, err := gum.ReadDefinitionFromFile(absDefinitionPath)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -31,18 +30,9 @@ func main() {
 	}
 }
 
-func readPackage(path string) (*gum.PackageDefinition, error) {
-	content, err := os.ReadFile(path)
-	if err != nil {
-		return nil, err
-	}
-
-	return gum.ParsePackageDefinition(string(content))
-}
-
 /*
    COMMANDS:
-   	build <definition file> - build package from definition file
+   	- build <definition file> - build package from definition file
 
    	install <archive file> - install package from archive file
 

@@ -4,7 +4,7 @@ const (
 	DefaultBuildDir    = "/tmp/gumshield/build"
 	DefaultFakeRootDir = "/tmp/gumshield/fake_root"
 	DefaultTempDir     = "/tmp/gumshield/temp"
-	// DefaultIndexDir    = "/var/lib/gumshield" // TODO: index
+	DefaultIndexDir    = "/var/lib/gumshield"
 
 	// DefaultConfigFile = "/etc/gumshield" // TODO: config
 
