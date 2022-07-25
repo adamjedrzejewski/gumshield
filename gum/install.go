@@ -8,6 +8,8 @@ import (
 )
 
 func Install(archivePath string, verbose bool) error {
+	// TODO: check if package is already installed
+
 	absArchivePath, err := filepath.Abs(archivePath)
 	if err != nil {
 		return err

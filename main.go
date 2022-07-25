@@ -8,6 +8,8 @@ func main() {
 	parser := argparse.NewParser("gumshield", "gumshield package manager", nil)
 
 	registerBuildCommand(parser)
+	registerInstallCommand(parser)
+	registerShowCommand(parser)
 
 	_ = parser.Parse(nil)
 

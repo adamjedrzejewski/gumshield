@@ -17,8 +17,8 @@ func ShowInstalled() error {
 	return nil
 }
 
-func ShowConfig() {
-
+func ShowConfig() error {
+	return nil
 }
 
 func ShowFiles(packageName string) error {

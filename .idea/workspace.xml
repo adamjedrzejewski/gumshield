@@ -5,17 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73037548-3693-4cb4-9413-933902387c1f" name="Changes" comment="build implementation">
-      <change afterPath="$PROJECT_DIR$/commands.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gumshield.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gumshield.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gum/constants.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/constants.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands.go" beforeDir="false" afterPath="$PROJECT_DIR$/commands.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gum/install.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/install.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gum/show.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/show.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sysvinit.elplan" beforeDir="false" afterPath="$PROJECT_DIR$/sysvinit.elplan" afterDir="false" />
     </list>
@@ -73,7 +71,7 @@
       <recent name="\\wsl$\Debian\home\adaj\gumshield\gumshield" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.gumshield build">
+  <component name="RunManager" selected="Go Build.gumshield show package">
     <configuration name="gumshield build" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
       <module name="gumshield" />
       <working_directory value="$PROJECT_DIR$" />
@@ -87,7 +85,7 @@
     <configuration name="gumshield install" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="gumshield" />
       <working_directory value="$PROJECT_DIR$" />
-      <parameters value="install" />
+      <parameters value="install test.tar" />
       <sudo value="true" />
       <kind value="DIRECTORY" />
       <package value="gumshield" />
@@ -98,7 +96,7 @@
     <configuration name="gumshield show files" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="gumshield" />
       <working_directory value="$PROJECT_DIR$" />
-      <parameters value="show files" />
+      <parameters value="show files test" />
       <kind value="DIRECTORY" />
       <package value="gumshield" />
       <directory value="$PROJECT_DIR$" />
@@ -118,7 +116,7 @@
     <configuration name="gumshield show package" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="gumshield" />
       <working_directory value="$PROJECT_DIR$" />
-      <parameters value="show package" />
+      <parameters value="show package test" />
       <kind value="DIRECTORY" />
       <package value="gumshield" />
       <directory value="$PROJECT_DIR$" />
@@ -128,7 +126,7 @@
     <configuration name="gumshield show triggers" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="gumshield" />
       <working_directory value="$PROJECT_DIR$" />
-      <parameters value="show triggers" />
+      <parameters value="show triggers test" />
       <kind value="DIRECTORY" />
       <package value="gumshield" />
       <directory value="$PROJECT_DIR$" />
@@ -180,16 +178,5 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/commands.go</url>
-          <line>33</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
