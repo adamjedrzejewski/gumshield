@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/adamjedrzejewski/gumshield/gum"
 	"log"
 	"os"
@@ -21,7 +22,12 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	if len(os.Args) > 1 && os.Args[1] == "build" {
+	if len(os.Args) < 2 {
+		fmt.Println("action?")
+		return
+	}
+
+	if os.Args[1] == "build" {
 		buildDir := gum.DefaultBuildDir
 		fakeRootDir := gum.DefaultFakeRootDir
 		tempDir := gum.DefaultTempDir
@@ -30,8 +36,36 @@ func main() {
 		if err := gum.Build(pkg, outFilePath, buildDir, fakeRootDir, tempDir, verbose); err != nil {
 			log.Fatal(err)
 		}
-	} else {
+		return
+	}
+
+	if os.Args[1] == "install" {
 		if err := gum.Install(archivePath); err != nil {
+			log.Fatalln(err)
+		}
+	}
+
+	if len(os.Args) < 3 {
+		fmt.Println("action?")
+		return
+	}
+	if os.Args[1] == "show" && os.Args[2] == "installed" {
+		if err := gum.ShowInstalled(); err != nil {
+			log.Fatalln(err)
+		}
+	}
+	if os.Args[1] == "show" && os.Args[2] == "files" {
+		if err := gum.ShowFiles("test"); err != nil {
+			log.Fatalln(err)
+		}
+	}
+	if os.Args[1] == "show" && os.Args[2] == "package" {
+		if err := gum.ShowPackage("test"); err != nil {
+			log.Fatalln(err)
+		}
+	}
+	if os.Args[1] == "show" && os.Args[2] == "triggers" {
+		if err := gum.ShowTriggers("test"); err != nil {
 			log.Fatalln(err)
 		}
 	}
@@ -47,10 +81,10 @@ func main() {
    	create definition <definition name> - create package definition
 
    	show config - show gumshield configuration
-   	show installed - list installed packages
-   	show package <package name> - show package information
-   	show files <package name> - list package files
-	show triggers <package name> - show package scripts
+   	- show installed - list installed packages
+   	- show package <package name> - show package information
+   	- show files <package name> - list package files
+	- show triggers <package name> - show package scripts
 
    	uninstall <package name> - remove package
 
