@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 )
 
-func Install(archivePath string) error {
+func Install(archivePath string, verbose bool) error {
 	absArchivePath, err := filepath.Abs(archivePath)
 	if err != nil {
 		return err
@@ -31,6 +31,9 @@ func Install(archivePath string) error {
 		return err
 	}
 
+	if err := setEnvVars(absBuildDir, absFakeRootDir); err != nil {
+		return err
+	}
 	if err := prepareDirs(absBuildDir, absFakeRootDir, absTempDir); err != nil {
 		return err
 	}
@@ -44,11 +47,15 @@ func Install(archivePath string) error {
 	if err := copyDefinition(pkg.Name, absTempDir, absIndexDir); err != nil {
 		return err
 	}
-	// TODO: run before install script
+	if err := runScript(DefaultTempDir, pkg.BeforeInstallLogic, verbose); err != nil {
+		return err
+	}
 	if err := extractFiles(absTempDir); err != nil {
 		return err
 	}
-	// TODO: run after install script
+	if err := runScript(DefaultTempDir, pkg.AfterInstallLogic, verbose); err != nil {
+		return err
+	}
 	if err := cleanUpDirs(absBuildDir, absFakeRootDir, absTempDir); err != nil {
 		return err
 	}

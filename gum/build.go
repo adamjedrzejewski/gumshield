@@ -38,7 +38,7 @@ func Build(pkg *PackageDefinition, outputFile, buildDir, fakeRootDir, tempDir st
 	if err := downloadSources(pkg.Sources, absBuildDir); err != nil {
 		return err
 	}
-	if err := runBuild(absBuildDir, pkg.BuildLogic, verbose); err != nil {
+	if err := runScript(absBuildDir, pkg.BuildLogic, verbose); err != nil {
 		return err
 	}
 	if err := createArchive(absFakeRootDir, absTempDir, absOutputFile, pkg); err != nil {
@@ -51,7 +51,7 @@ func Build(pkg *PackageDefinition, outputFile, buildDir, fakeRootDir, tempDir st
 	return nil
 }
 
-func runBuild(dir, logic string, verbose bool) error {
+func runScript(dir, logic string, verbose bool) error {
 	currentDir, err := os.Getwd()
 	if err != nil {
 		return err

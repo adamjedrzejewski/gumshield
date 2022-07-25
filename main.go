@@ -40,9 +40,10 @@ func main() {
 	}
 
 	if os.Args[1] == "install" {
-		if err := gum.Install(archivePath); err != nil {
+		if err := gum.Install(archivePath, true); err != nil {
 			log.Fatalln(err)
 		}
+		return
 	}
 
 	if len(os.Args) < 3 {
@@ -53,21 +54,25 @@ func main() {
 		if err := gum.ShowInstalled(); err != nil {
 			log.Fatalln(err)
 		}
+		return
 	}
 	if os.Args[1] == "show" && os.Args[2] == "files" {
 		if err := gum.ShowFiles("test"); err != nil {
 			log.Fatalln(err)
 		}
+		return
 	}
 	if os.Args[1] == "show" && os.Args[2] == "package" {
 		if err := gum.ShowPackage("test"); err != nil {
 			log.Fatalln(err)
 		}
+		return
 	}
 	if os.Args[1] == "show" && os.Args[2] == "triggers" {
 		if err := gum.ShowTriggers("test"); err != nil {
 			log.Fatalln(err)
 		}
+		return
 	}
 
 }

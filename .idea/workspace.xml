@@ -5,13 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73037548-3693-4cb4-9413-933902387c1f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/gum/show.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gum/uninstall.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gumshield.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gumshield.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gum/build.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/build.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gum/install.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/install.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sysvinit.elplan" beforeDir="false" afterPath="$PROJECT_DIR$/sysvinit.elplan" afterDir="false" />
     </list>
@@ -68,7 +68,7 @@
       <recent name="\\wsl$\Debian\home\adaj\gumshield\gumshield" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.gumshield show triggers">
+  <component name="RunManager" selected="Go Build.gumshield install">
     <configuration name="gumshield build" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
       <module name="gumshield" />
       <working_directory value="$PROJECT_DIR$" />
@@ -82,6 +82,7 @@
     <configuration name="gumshield install" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="gumshield" />
       <working_directory value="$PROJECT_DIR$" />
+      <parameters value="install" />
       <sudo value="true" />
       <kind value="FILE" />
       <package value="gumshield" />
