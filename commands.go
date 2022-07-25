@@ -56,6 +56,19 @@ func registerInstallCommand(parser *argparse.Parser) {
 	}
 }
 
+func registerUninstallCommand(parser *argparse.Parser) {
+	uninstall := parser.AddCommand("uninstall", "uninstall package", &argparse.ParserConfig{})
+	pkg := uninstall.String("", "package_name", &argparse.Option{Positional: true, Help: "package name"})
+	verbose := uninstall.Flag("v", "verbose", &argparse.Option{Help: "print output from underlying processes"})
+
+	uninstall.InvokeAction = func(bool) {
+		err := gum.Uninstall(*pkg, *verbose)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+}
+
 func registerShowCommand(parser *argparse.Parser) {
 	show := parser.AddCommand("show", "display information", &argparse.ParserConfig{})
 

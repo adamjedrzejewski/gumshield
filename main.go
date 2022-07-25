@@ -10,6 +10,7 @@ func main() {
 	registerBuildCommand(parser)
 	registerInstallCommand(parser)
 	registerShowCommand(parser)
+	registerUninstallCommand(parser)
 
 	_ = parser.Parse(nil)
 
