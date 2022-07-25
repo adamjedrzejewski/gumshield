@@ -1,9 +1,7 @@
 package gum
 
 import (
-	"archive/tar"
 	"errors"
-	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -31,29 +29,29 @@ func Install(archivePath string, verbose bool) error {
 		return err
 	}
 
-	if err := setEnvVars(absBuildDir, absFakeRootDir); err != nil {
+	if err := SetEnvVars(absBuildDir, absFakeRootDir); err != nil {
 		return err
 	}
 	if err := prepareDirs(absBuildDir, absFakeRootDir, absTempDir); err != nil {
 		return err
 	}
-	if err := extractArchive(absArchivePath, absTempDir); err != nil {
+	if err := extractPackageArchive(absArchivePath, absTempDir); err != nil {
 		return err
 	}
 	pkg, err := ReadDefinitionFromFile(filepath.Join(absTempDir, DefinitionFileName))
-	if err := validateInstallDefinition(pkg); err != nil {
+	if err := ValidateInstallDefinition(pkg); err != nil {
 		return err
 	}
-	if err := copyDefinition(pkg.Name, absTempDir, absIndexDir); err != nil {
+	if err := copyDefinitionToIndex(pkg.Name, absTempDir, absIndexDir); err != nil {
 		return err
 	}
-	if err := runScript(DefaultTempDir, pkg.BeforeInstallLogic, verbose); err != nil {
+	if err := runScriptInDir(DefaultTempDir, pkg.BeforeInstallLogic, verbose); err != nil {
 		return err
 	}
-	if err := extractFiles(absTempDir); err != nil {
+	if err := extractFilesToRoot(absTempDir); err != nil {
 		return err
 	}
-	if err := runScript(DefaultTempDir, pkg.AfterInstallLogic, verbose); err != nil {
+	if err := runScriptInDir(DefaultTempDir, pkg.AfterInstallLogic, verbose); err != nil {
 		return err
 	}
 	if err := cleanUpDirs(absBuildDir, absFakeRootDir, absTempDir); err != nil {
@@ -63,33 +61,16 @@ func Install(archivePath string, verbose bool) error {
 	return nil
 }
 
-func validateInstallDefinition(pkg *PackageDefinition) error {
-	if pkg.BeforeInstallLogic == "" {
-		return errors.New("missing before install script")
-	}
-	if pkg.AfterInstallLogic == "" {
-		return errors.New("missing after install script")
-	}
-	if pkg.UninstallLogic == "" {
-		return errors.New("missing uninstall script")
-	}
-	if pkg.Files == nil || len(pkg.Files) == 0 {
-		return errors.New("missing file list")
-	}
-
-	return nil
-}
-
-func extractFiles(fromDir string) error {
+func extractFilesToRoot(fromDir string) error {
 	filesArchive := filepath.Join(fromDir, FilesArchiveFileName)
 	archive, err := os.Open(filesArchive)
 	if err != nil {
 		return err
 	}
-	return unTar(RootDir, archive)
+	return extractTar(RootDir, archive)
 }
 
-func copyDefinition(name, sourceDir, destinationDir string) error {
+func copyDefinitionToIndex(name, sourceDir, destinationDir string) error {
 	fileInfo, err := os.Stat(destinationDir)
 	if errors.Is(err, os.ErrNotExist) {
 		err := os.MkdirAll(destinationDir, 0755)
@@ -116,57 +97,4 @@ func copyDefinition(name, sourceDir, destinationDir string) error {
 	}
 
 	return nil
-}
-
-func extractArchive(archivePath, outputDir string) error {
-	file, err := os.Open(archivePath)
-	if err != nil {
-		return err
-	}
-
-	if err := unTar(outputDir, file); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func unTar(dst string, reader io.Reader) error {
-	tarReader := tar.NewReader(reader)
-
-	for {
-		header, err := tarReader.Next()
-		switch {
-		case err == io.EOF:
-			return nil
-		case err != nil:
-			return err
-		}
-
-		if header == nil {
-			continue
-		}
-
-		targetPath := filepath.Join(dst, header.Name)
-		switch header.Typeflag {
-		case tar.TypeDir:
-			if _, err := os.Stat(targetPath); err != nil {
-				if err := os.MkdirAll(targetPath, 0755); err != nil {
-					return err
-				}
-			}
-		case tar.TypeReg:
-			f, err := os.OpenFile(targetPath, os.O_CREATE|os.O_RDWR, os.FileMode(header.Mode))
-			if err != nil {
-				return err
-			}
-			if _, err := io.Copy(f, tarReader); err != nil {
-				return err
-			}
-
-			if err := f.Close(); err != nil {
-				return err
-			}
-		}
-	}
 }

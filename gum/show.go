@@ -1,14 +1,11 @@
 package gum
 
 import (
-	"errors"
 	"fmt"
-	"io/ioutil"
-	"path"
 )
 
 func ShowInstalled() error {
-	packages, err := readPackages()
+	packages, err := readPackagesFromIndex()
 	if err != nil {
 		return err
 	}
@@ -25,7 +22,7 @@ func ShowConfig() {
 }
 
 func ShowFiles(packageName string) error {
-	pkg, err := getPackage(packageName)
+	pkg, err := getPackageFromIndex(packageName)
 	if err != nil {
 		return err
 	}
@@ -38,7 +35,7 @@ func ShowFiles(packageName string) error {
 }
 
 func ShowPackage(packageName string) error {
-	pkg, err := getPackage(packageName)
+	pkg, err := getPackageFromIndex(packageName)
 	if err != nil {
 		return err
 	}
@@ -55,7 +52,7 @@ func ShowPackage(packageName string) error {
 }
 
 func ShowTriggers(packageName string) error {
-	pkg, err := getPackage(packageName)
+	pkg, err := getPackageFromIndex(packageName)
 	if err != nil {
 		return err
 	}
@@ -70,42 +67,4 @@ func ShowTriggers(packageName string) error {
 	fmt.Println(pkg.UninstallLogic)
 
 	return nil
-}
-
-func readPackages() ([]*PackageDefinition, error) {
-	files, err := ioutil.ReadDir(DefaultIndexDir)
-	if err != nil {
-		return nil, err
-	}
-
-	packages := make([]*PackageDefinition, 0)
-	for _, file := range files {
-		filePath := path.Join(DefaultIndexDir, file.Name())
-		content, err := ioutil.ReadFile(filePath)
-		if err != nil {
-			return nil, err
-		}
-		pkg, err := ParsePackageDefinition(string(content))
-		if err != nil {
-			return nil, err
-		}
-
-		packages = append(packages, pkg)
-	}
-
-	return packages, nil
-}
-
-func getPackage(packageName string) (*PackageDefinition, error) {
-	packages, err := readPackages()
-	if err != nil {
-		return nil, err
-	}
-	for _, pkg := range packages {
-		if pkg.Name == packageName {
-			return pkg, nil
-		}
-	}
-
-	return nil, errors.New("no such package")
 }

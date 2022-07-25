@@ -2,8 +2,11 @@ package gum
 
 import (
 	"bufio"
+	"errors"
 	"gopkg.in/yaml.v3"
+	"io/ioutil"
 	"os"
+	"path"
 	"strings"
 )
 
@@ -144,6 +147,61 @@ func SerializePackageDefinition(pkg *PackageDefinition) (string, error) {
 	}
 
 	return sb.String(), nil
+}
+
+func ValidateInstallDefinition(pkg *PackageDefinition) error {
+	if pkg.BeforeInstallLogic == "" {
+		return errors.New("missing before install script")
+	}
+	if pkg.AfterInstallLogic == "" {
+		return errors.New("missing after install script")
+	}
+	if pkg.UninstallLogic == "" {
+		return errors.New("missing uninstall script")
+	}
+	if pkg.Files == nil || len(pkg.Files) == 0 {
+		return errors.New("missing file list")
+	}
+
+	return nil
+}
+
+func readPackagesFromIndex() ([]*PackageDefinition, error) {
+	files, err := ioutil.ReadDir(DefaultIndexDir)
+	if err != nil {
+		return nil, err
+	}
+
+	packages := make([]*PackageDefinition, 0)
+	for _, file := range files {
+		filePath := path.Join(DefaultIndexDir, file.Name())
+		content, err := ioutil.ReadFile(filePath)
+		if err != nil {
+			return nil, err
+		}
+		pkg, err := ParsePackageDefinition(string(content))
+		if err != nil {
+			return nil, err
+		}
+
+		packages = append(packages, pkg)
+	}
+
+	return packages, nil
+}
+
+func getPackageFromIndex(packageName string) (*PackageDefinition, error) {
+	packages, err := readPackagesFromIndex()
+	if err != nil {
+		return nil, err
+	}
+	for _, pkg := range packages {
+		if pkg.Name == packageName {
+			return pkg, nil
+		}
+	}
+
+	return nil, errors.New("no such package")
 }
 
 func setSectionTag(currentSection *string, line string) bool {
