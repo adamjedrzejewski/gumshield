@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 )
 
-func Build(pkg PackageDefinition, outputFile, buildDir, fakeRootDir, tempDir string, verbose bool) error {
+func Build(pkg *PackageDefinition, outputFile, buildDir, fakeRootDir, tempDir string, verbose bool) error {
 	absBuildDir, err := toAbsolutePath(buildDir)
 	if err != nil {
 		return err
@@ -44,9 +44,9 @@ func Build(pkg PackageDefinition, outputFile, buildDir, fakeRootDir, tempDir str
 	if err := createArchive(absFakeRootDir, absTempDir, absOutputFile, pkg); err != nil {
 		return err
 	}
-	//if err := cleanUpDirs(absBuildDir, absFakeRootDir, absTempDir); err != nil {
-	//	return err
-	//}
+	if err := cleanUpDirs(absBuildDir, absFakeRootDir, absTempDir); err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -180,7 +180,7 @@ func setEnvVars(buildDir string, fakeRootDir string) error {
 	return nil
 }
 
-func createArchive(fromDir, tempDir, outFile string, pkg PackageDefinition) error {
+func createArchive(fromDir, tempDir, outFile string, pkg *PackageDefinition) error {
 	files, err := listFiles(fromDir)
 	if err != nil {
 		return err
@@ -204,8 +204,7 @@ func createArchive(fromDir, tempDir, outFile string, pkg PackageDefinition) erro
 	}
 
 	manifestPath := filepath.Join(tempDir, ManifestFileName)
-	manifest := NewManifest(pkg, files)
-	if err := writeManifest(manifestPath, manifest); err != nil {
+	if err := writeManifest(manifestPath, pkg); err != nil {
 		return err
 	}
 
@@ -233,26 +232,22 @@ func createArchive(fromDir, tempDir, outFile string, pkg PackageDefinition) erro
 	return nil
 }
 
-func writeManifest(path string, manifest PackageManifest) error {
+func writeManifest(path string, pkg *PackageDefinition) error {
 	file, err := os.Create(path)
 	if err != nil {
 		return err
 	}
 
-	// TODO: write manifest
-	for _, f := range manifest.Files {
-		_, err = file.Write([]byte(f + "\n"))
+	content, err := SerializePackageDefinition(pkg)
+	if err != nil {
+		return err
+	}
+	_, err = file.Write([]byte(content))
+	if err != nil {
+		return err
 	}
 
 	return nil
-}
-
-func NewManifest(pkg PackageDefinition, files []string) PackageManifest {
-	// TODO: move this somewhere
-	return PackageManifest{
-		Package: pkg,
-		Files:   files,
-	}
 }
 
 func listFiles(dir string) ([]string, error) {

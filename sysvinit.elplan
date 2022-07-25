@@ -1,0 +1,19 @@
+%%% DESCRIPTION
+System V init
+%%% META
+name: "sysvinit"
+version: "2.98"
+sources:
+    - "https://download.savannah.gnu.org/releases/sysvinit/sysvinit-2.98.tar.xz"
+    - "https://www.linuxfromscratch.org/patches/lfs/10.1/sysvinit-2.98-consolidated-1.patch"
+%%% INSTALL
+echo "Hello, World!"
+%%% UNINSTALL
+echo "Goodbye, Mars!"
+%%% BUILD
+set -euo pipefail
+tar xf sysvinit-2.98.tar.xz
+cd sysvinit-2.98
+patch -Np1 -i ../sysvinit-2.98-consolidated-1.patch
+make
+make ROOT=$GUMSHIELD_FAKE_ROOT_DIR -j1 install
