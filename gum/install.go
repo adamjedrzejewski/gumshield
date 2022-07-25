@@ -44,9 +44,11 @@ func Install(archivePath string) error {
 	if err := copyDefinition(pkg.Name, absTempDir, absIndexDir); err != nil {
 		return err
 	}
+	// TODO: run before install script
 	if err := extractFiles(absTempDir); err != nil {
 		return err
 	}
+	// TODO: run after install script
 	if err := cleanUpDirs(absBuildDir, absFakeRootDir, absTempDir); err != nil {
 		return err
 	}
@@ -72,7 +74,12 @@ func validateInstallDefinition(pkg *PackageDefinition) error {
 }
 
 func extractFiles(fromDir string) error {
-	return nil
+	filesArchive := filepath.Join(fromDir, FilesArchiveFileName)
+	archive, err := os.Open(filesArchive)
+	if err != nil {
+		return err
+	}
+	return unTar(RootDir, archive)
 }
 
 func copyDefinition(name, sourceDir, destinationDir string) error {

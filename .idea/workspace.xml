@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73037548-3693-4cb4-9413-933902387c1f" name="Changes" comment="build implementation">
+    <list default="true" id="73037548-3693-4cb4-9413-933902387c1f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.elplan" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gumshield.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gumshield.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
@@ -12,8 +14,6 @@
       <change beforePath="$PROJECT_DIR$/gum/build.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/build.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gum/constants.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/constants.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gum/install.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/install.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gum/pkg.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/pkg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gum/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/types.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sysvinit.elplan" beforeDir="false" afterPath="$PROJECT_DIR$/sysvinit.elplan" afterDir="false" />
     </list>
@@ -70,19 +70,34 @@
       <recent name="\\wsl$\Debian\home\adaj\gumshield\gumshield" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Build.gumshield install">
+    <configuration name="gumshield build" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
       <module name="gumshield" />
       <working_directory value="$PROJECT_DIR$" />
+      <parameters value="build" />
       <kind value="FILE" />
       <package value="gumshield" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/main.go" />
       <method v="2" />
     </configuration>
+    <configuration name="gumshield install" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="gumshield" />
+      <working_directory value="$PROJECT_DIR$" />
+      <sudo value="true" />
+      <kind value="FILE" />
+      <package value="gumshield" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Go Build.gumshield install" />
+      <item itemvalue="Go Build.gumshield build" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build main.go" />
+        <item itemvalue="Go Build.gumshield build" />
       </list>
     </recent_temporary>
   </component>
@@ -107,16 +122,5 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/gum/install.go</url>
-          <line>78</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

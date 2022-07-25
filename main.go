@@ -3,13 +3,14 @@ package main
 import (
 	"github.com/adamjedrzejewski/gumshield/gum"
 	"log"
+	"os"
 	"path/filepath"
 	// https://github.com/hellflame/argparse
 )
 
 func main() {
-	definitionPath := "./sysvinit.elplan"
-	archivePath := "./sysvinit.tar"
+	definitionPath := "./test.elplan"
+	archivePath := "./test.tar"
 	absDefinitionPath, err := filepath.Abs(definitionPath)
 	if err != nil {
 		log.Fatalln(err)
@@ -20,28 +21,28 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	_ = pkg
-	_ = archivePath
-
-	//buildDir := gum.DefaultBuildDir
-	//fakeRootDir := gum.DefaultFakeRootDir
-	//tempDir := gum.DefaultTempDir
-	//outFilePath := pkg.Name + ".tar"
-	//verbose := true
-
-	if err := gum.Install(archivePath); err != nil {
-		log.Fatalln(err)
+	if len(os.Args) > 1 && os.Args[1] == "build" {
+		buildDir := gum.DefaultBuildDir
+		fakeRootDir := gum.DefaultFakeRootDir
+		tempDir := gum.DefaultTempDir
+		outFilePath := pkg.Name + ".tar"
+		verbose := true
+		if err := gum.Build(pkg, outFilePath, buildDir, fakeRootDir, tempDir, verbose); err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		if err := gum.Install(archivePath); err != nil {
+			log.Fatalln(err)
+		}
 	}
-	//if err := gum.Build(pkg, outFilePath, buildDir, fakeRootDir, tempDir, verbose); err != nil {
-	//	log.Fatal(err)
-	//}
+
 }
 
 /*
    COMMANDS:
    	- build <definition file> - build package from definition file
 
-   	install <archive file> - install package from archive file
+   	- install <archive file> - install package from archive file
 
    	create definition <definition name> - create package definition
 

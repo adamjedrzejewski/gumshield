@@ -214,6 +214,8 @@ func createArchive(fromDir, tempDir, outFile string, pkg *PackageDefinition) err
 		DefinitionFileName,
 	}
 
+	_ = outFileFiles
+
 	currentDir, err = os.Getwd()
 	if err != nil {
 		return err
@@ -266,9 +268,9 @@ func listFiles(dir string) ([]string, error) {
 		if path == "." {
 			return nil
 		}
-		if f, err := os.Stat(path); err != nil || f.IsDir() {
-			return nil
-		}
+		//if f, err := os.Stat(path); err != nil || f.IsDir() {
+		//	return nil
+		//}
 		files = append(files, path)
 		return nil
 	})
@@ -284,6 +286,7 @@ func listFiles(dir string) ([]string, error) {
 	return files, nil
 }
 
+//  TODO: fix tar
 func createTarball(outFile string, files []string) error {
 	file, err := os.Create(outFile)
 	if err != nil {
@@ -316,16 +319,18 @@ func addFileToTarWriter(path string, writer *tar.Writer) error {
 		return err
 	}
 
-	header := &tar.Header{
-		Name:    path,
-		Size:    stat.Size(),
-		Mode:    int64(stat.Mode()),
-		ModTime: stat.ModTime(),
+	header, err := tar.FileInfoHeader(stat, path)
+	if err != nil {
+		return err
 	}
 
+	header.Name = path
 	err = writer.WriteHeader(header)
 	if err != nil {
 		return err
+	}
+	if stat.IsDir() {
+		return nil
 	}
 
 	_, err = io.Copy(writer, file)

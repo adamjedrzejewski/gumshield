@@ -5,6 +5,7 @@ const (
 	DefaultFakeRootDir = "/tmp/gumshield/fake_root"
 	DefaultTempDir     = "/tmp/gumshield/temp"
 	DefaultIndexDir    = "/var/lib/gumshield"
+	RootDir            = "/"
 
 	// DefaultConfigFile = "/etc/gumshield" // TODO: config
 

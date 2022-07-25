@@ -1,0 +1,23 @@
+%%% DESCRIPTION
+Test package
+%%% META
+name: "test"
+version: "1.0"
+%%% BEFORE INSTALL
+echo "before install"
+%%% AFTER INSTALL
+echo "after install"
+%%% UNINSTALL
+echo "uninstall"
+%%% BUILD
+set -euo pipefail
+mkdir $GUMSHIELD_FAKE_ROOT_DIR/tmp
+mkdir $GUMSHIELD_FAKE_ROOT_DIR/tmp/test_package
+touch $GUMSHIELD_FAKE_ROOT_DIR/tmp/test_package/1
+touch $GUMSHIELD_FAKE_ROOT_DIR/tmp/test_package/2
+touch $GUMSHIELD_FAKE_ROOT_DIR/tmp/test_package/3
+touch $GUMSHIELD_FAKE_ROOT_DIR/tmp/test_package/4
+touch $GUMSHIELD_FAKE_ROOT_DIR/tmp/test_package/5
+touch $GUMSHIELD_FAKE_ROOT_DIR/tmp/test_package/6
+touch $GUMSHIELD_FAKE_ROOT_DIR/tmp/test_package/7
+touch $GUMSHIELD_FAKE_ROOT_DIR/tmp/test_package/8
