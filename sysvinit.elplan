@@ -6,12 +6,6 @@ version: "2.98"
 sources:
     - "https://download.savannah.gnu.org/releases/sysvinit/sysvinit-2.98.tar.xz"
     - "https://www.linuxfromscratch.org/patches/lfs/10.1/sysvinit-2.98-consolidated-1.patch"
-%%% BEFORE INSTALL
-echo "Hello, World!"
-%%% AFTER INSTALL
-echo "Hello, Mars!"
-%%% UNINSTALL
-echo "Goodbye, Mars!"
 %%% BUILD
 set -euo pipefail
 tar xf sysvinit-2.98.tar.xz

@@ -4,21 +4,19 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="73037548-3693-4cb4-9413-933902387c1f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/gum/archive.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gum/common.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gum/download.go" afterDir="false" />
+    <list default="true" id="73037548-3693-4cb4-9413-933902387c1f" name="Changes" comment="build implementation">
+      <change afterPath="$PROJECT_DIR$/commands.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gumshield.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gumshield.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gum/build.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/build.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gum/constants.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/constants.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gum/install.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/install.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gum/pkg.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/pkg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gum/show.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/show.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gum/uninstall.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/uninstall.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sysvinit.elplan" beforeDir="false" afterPath="$PROJECT_DIR$/sysvinit.elplan" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,32 +52,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.format.on.save.advertiser.fired&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Adam&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "last_opened_file_path": "C:/Users/Adam",
+    "settings.editor.selected.configurable": "goland.project.structure"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="\\wsl$\Debian\home\adaj\gumshield\gumshield" />
     </key>
   </component>
-  <component name="RunManager" selected="Go Build.gumshield show installed">
+  <component name="RunManager" selected="Go Build.gumshield build">
     <configuration name="gumshield build" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true">
       <module name="gumshield" />
       <working_directory value="$PROJECT_DIR$" />
-      <parameters value="build" />
-      <kind value="FILE" />
+      <parameters value="build test.elplan -v" />
+      <kind value="DIRECTORY" />
       <package value="gumshield" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/main.go" />
@@ -90,7 +89,7 @@
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="install" />
       <sudo value="true" />
-      <kind value="FILE" />
+      <kind value="DIRECTORY" />
       <package value="gumshield" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/main.go" />
@@ -100,7 +99,7 @@
       <module name="gumshield" />
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="show files" />
-      <kind value="FILE" />
+      <kind value="DIRECTORY" />
       <package value="gumshield" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/main.go" />
@@ -110,7 +109,7 @@
       <module name="gumshield" />
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="show installed" />
-      <kind value="FILE" />
+      <kind value="DIRECTORY" />
       <package value="gumshield" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/main.go" />
@@ -120,7 +119,7 @@
       <module name="gumshield" />
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="show package" />
-      <kind value="FILE" />
+      <kind value="DIRECTORY" />
       <package value="gumshield" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/main.go" />
@@ -130,7 +129,16 @@
       <module name="gumshield" />
       <working_directory value="$PROJECT_DIR$" />
       <parameters value="show triggers" />
-      <kind value="FILE" />
+      <kind value="DIRECTORY" />
+      <package value="gumshield" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="gumshield" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="gumshield" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
       <package value="gumshield" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/main.go" />
@@ -139,6 +147,7 @@
     <list>
       <item itemvalue="Go Build.gumshield install" />
       <item itemvalue="Go Build.gumshield show installed" />
+      <item itemvalue="Go Build.gumshield" />
       <item itemvalue="Go Build.gumshield show files" />
       <item itemvalue="Go Build.gumshield show package" />
       <item itemvalue="Go Build.gumshield show triggers" />
@@ -171,5 +180,16 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/commands.go</url>
+          <line>33</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -45,14 +45,18 @@ func Install(archivePath string, verbose bool) error {
 	if err := copyDefinitionToIndex(pkg.Name, absTempDir, absIndexDir); err != nil {
 		return err
 	}
-	if err := runScriptInDir(DefaultTempDir, pkg.BeforeInstallLogic, verbose); err != nil {
-		return err
+	if pkg.BeforeInstallLogic != "" {
+		if err := runScriptInDir(DefaultTempDir, pkg.BeforeInstallLogic, verbose); err != nil {
+			return err
+		}
 	}
 	if err := extractFilesToRoot(absTempDir); err != nil {
 		return err
 	}
-	if err := runScriptInDir(DefaultTempDir, pkg.AfterInstallLogic, verbose); err != nil {
-		return err
+	if pkg.AfterInstallLogic != "" {
+		if err := runScriptInDir(DefaultTempDir, pkg.AfterInstallLogic, verbose); err != nil {
+			return err
+		}
 	}
 	if err := cleanUpDirs(absBuildDir, absFakeRootDir, absTempDir); err != nil {
 		return err

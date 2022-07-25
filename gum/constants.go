@@ -13,6 +13,7 @@ const (
 	FilesArchiveFileName = "files.tar"
 
 	DefinitionFileExtension = ".elplan"
+	ArchiveFileExtension    = ".tar"
 
 	BuildDirEnvVarName    = "GUMSHIELD_BUILD_DIR"
 	FakeRootDirEnvVarName = "GUMSHIELD_FAKE_ROOT_DIR"
