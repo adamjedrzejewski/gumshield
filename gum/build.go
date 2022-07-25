@@ -203,14 +203,15 @@ func createArchive(fromDir, tempDir, outFile string, pkg *PackageDefinition) err
 		return err
 	}
 
-	manifestPath := filepath.Join(tempDir, ManifestFileName)
-	if err := writeManifest(manifestPath, pkg); err != nil {
+	pkg.Files = files
+	definitionPath := filepath.Join(tempDir, DefinitionFileName)
+	if err := writeDefinition(definitionPath, pkg); err != nil {
 		return err
 	}
 
 	outFileFiles := []string{
 		FilesArchiveFileName,
-		ManifestFileName,
+		DefinitionFileName,
 	}
 
 	currentDir, err = os.Getwd()
@@ -232,7 +233,7 @@ func createArchive(fromDir, tempDir, outFile string, pkg *PackageDefinition) err
 	return nil
 }
 
-func writeManifest(path string, pkg *PackageDefinition) error {
+func writeDefinition(path string, pkg *PackageDefinition) error {
 	file, err := os.Create(path)
 	if err != nil {
 		return err

@@ -10,25 +10,27 @@ import (
 const (
 	noSection = ""
 
-	descriptionSectionTag = "%%% DESCRIPTION"
-	metaSectionTag        = "%%% META"
-	installSectionTag     = "%%% INSTALL"
-	uninstallSectionTag   = "%%% UNINSTALL"
-	buildSectionTag       = "%%% BUILD"
-	filesSectionTag       = "%%% FILES"
-	tagLikeTerminator     = "%%%"
+	descriptionSectionTag   = "%%% DESCRIPTION"
+	metaSectionTag          = "%%% META"
+	beforeInstallSectionTag = "%%% BEFORE INSTALL"
+	afterInstallSectionTag  = "%%% AFTER INSTALL"
+	uninstallSectionTag     = "%%% UNINSTALL"
+	buildSectionTag         = "%%% BUILD"
+	filesSectionTag         = "%%% FILES"
+	tagLikeTerminator       = "%%%"
 )
 
-func NewPackageDefinition(name, version string, sources []string, description, buildLogic, installLogic, uninstallLogic string, files []string) *PackageDefinition {
+func NewPackageDefinition(name, version string, sources []string, description, buildLogic, beforeInstallLogic, afterInstallLogic, uninstallLogic string, files []string) *PackageDefinition {
 	return &PackageDefinition{
-		Name:           name,
-		Version:        version,
-		Sources:        sources,
-		Files:          files,
-		BuildLogic:     buildLogic,
-		InstallLogic:   installLogic,
-		UninstallLogic: uninstallLogic,
-		Description:    description,
+		Name:               name,
+		Version:            version,
+		Sources:            sources,
+		Files:              files,
+		BuildLogic:         buildLogic,
+		BeforeInstallLogic: beforeInstallLogic,
+		AfterInstallLogic:  afterInstallLogic,
+		UninstallLogic:     uninstallLogic,
+		Description:        description,
 	}
 }
 
@@ -43,12 +45,13 @@ func ReadDefinitionFromFile(path string) (*PackageDefinition, error) {
 
 func ParsePackageDefinition(content string) (*PackageDefinition, error) {
 	sections := map[string][]string{
-		descriptionSectionTag: {},
-		metaSectionTag:        {},
-		installSectionTag:     {},
-		uninstallSectionTag:   {},
-		buildSectionTag:       {},
-		filesSectionTag:       {},
+		descriptionSectionTag:   {},
+		metaSectionTag:          {},
+		beforeInstallSectionTag: {},
+		afterInstallSectionTag:  {},
+		uninstallSectionTag:     {},
+		buildSectionTag:         {},
+		filesSectionTag:         {},
 	}
 
 	currentSection := noSection
@@ -67,7 +70,8 @@ func ParsePackageDefinition(content string) (*PackageDefinition, error) {
 
 	description := strings.Join(sections[descriptionSectionTag], "\n")
 	buildLogic := strings.Join(sections[buildSectionTag], "\n")
-	installLogic := strings.Join(sections[installSectionTag], "\n")
+	beforeInstallLogic := strings.Join(sections[beforeInstallSectionTag], "\n")
+	afterInstallLogic := strings.Join(sections[afterInstallSectionTag], "\n")
 	uninstallLogic := strings.Join(sections[uninstallSectionTag], "\n")
 	files := sections[filesSectionTag]
 	metadata, err := getMetadata(strings.Join(sections[metaSectionTag], "\n"))
@@ -75,7 +79,17 @@ func ParsePackageDefinition(content string) (*PackageDefinition, error) {
 		return nil, err
 	}
 
-	return NewPackageDefinition(metadata.Name, metadata.Version, metadata.Sources, description, buildLogic, installLogic, uninstallLogic, files), nil
+	return NewPackageDefinition(
+		metadata.Name,
+		metadata.Version,
+		metadata.Sources,
+		description,
+		buildLogic,
+		beforeInstallLogic,
+		afterInstallLogic,
+		uninstallLogic,
+		files,
+	), nil
 }
 
 func SerializePackageDefinition(pkg *PackageDefinition) (string, error) {
@@ -107,9 +121,14 @@ func SerializePackageDefinition(pkg *PackageDefinition) (string, error) {
 	sb.Write([]byte(pkg.BuildLogic))
 	sb.Write([]byte("\n"))
 
-	sb.Write([]byte(installSectionTag))
+	sb.Write([]byte(beforeInstallSectionTag))
 	sb.Write([]byte("\n"))
-	sb.Write([]byte(pkg.InstallLogic))
+	sb.Write([]byte(pkg.BeforeInstallLogic))
+	sb.Write([]byte("\n"))
+
+	sb.Write([]byte(afterInstallSectionTag))
+	sb.Write([]byte("\n"))
+	sb.Write([]byte(pkg.AfterInstallLogic))
 	sb.Write([]byte("\n"))
 
 	sb.Write([]byte(uninstallSectionTag))
@@ -136,8 +155,12 @@ func setSectionTag(currentSection *string, line string) bool {
 		*currentSection = metaSectionTag
 		return true
 	}
-	if strings.HasPrefix(line, installSectionTag) {
-		*currentSection = installSectionTag
+	if strings.HasPrefix(line, beforeInstallSectionTag) {
+		*currentSection = beforeInstallSectionTag
+		return true
+	}
+	if strings.HasPrefix(line, afterInstallSectionTag) {
+		*currentSection = afterInstallSectionTag
 		return true
 	}
 	if strings.HasPrefix(line, uninstallSectionTag) {

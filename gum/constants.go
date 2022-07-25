@@ -8,8 +8,10 @@ const (
 
 	// DefaultConfigFile = "/etc/gumshield" // TODO: config
 
-	ManifestFileName     = "manifest"
+	DefinitionFileName   = "manifest"
 	FilesArchiveFileName = "files.tar"
+
+	DefinitionFileExtension = ".elplan"
 
 	BuildDirEnvVarName    = "GUMSHIELD_BUILD_DIR"
 	FakeRootDirEnvVarName = "GUMSHIELD_FAKE_ROOT_DIR"

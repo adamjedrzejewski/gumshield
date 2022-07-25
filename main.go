@@ -9,6 +9,7 @@ import (
 
 func main() {
 	definitionPath := "./sysvinit.elplan"
+	archivePath := "./sysvinit.tar"
 	absDefinitionPath, err := filepath.Abs(definitionPath)
 	if err != nil {
 		log.Fatalln(err)
@@ -19,15 +20,21 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	buildDir := gum.DefaultBuildDir
-	fakeRootDir := gum.DefaultFakeRootDir
-	tempDir := gum.DefaultTempDir
-	outFilePath := pkg.Name + ".tar"
-	verbose := true
+	_ = pkg
+	_ = archivePath
 
-	if err := gum.Build(pkg, outFilePath, buildDir, fakeRootDir, tempDir, verbose); err != nil {
-		log.Fatal(err)
+	//buildDir := gum.DefaultBuildDir
+	//fakeRootDir := gum.DefaultFakeRootDir
+	//tempDir := gum.DefaultTempDir
+	//outFilePath := pkg.Name + ".tar"
+	//verbose := true
+
+	if err := gum.Install(archivePath); err != nil {
+		log.Fatalln(err)
 	}
+	//if err := gum.Build(pkg, outFilePath, buildDir, fakeRootDir, tempDir, verbose); err != nil {
+	//	log.Fatal(err)
+	//}
 }
 
 /*
