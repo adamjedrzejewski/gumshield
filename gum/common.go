@@ -1,9 +1,11 @@
 package gum
 
 import (
+	"fmt"
 	"io/fs"
 	"os"
 	"os/exec"
+	"os/user"
 	"path/filepath"
 )
 
@@ -122,4 +124,17 @@ func listFiles(dir string) ([]string, error) {
 	}
 
 	return files, nil
+}
+
+func isElevated() error {
+	u, err := user.Current()
+	if err != nil {
+		return err
+	}
+
+	if u.Uid != "0" {
+		return fmt.Errorf("process not running with elevated permission")
+	}
+
+	return nil
 }

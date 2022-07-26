@@ -6,6 +6,11 @@ import (
 )
 
 func Uninstall(packageName string, verbose bool) error {
+	err := isElevated()
+	if err != nil {
+		return err
+	}
+
 	pkg, err := getPackageFromIndex(packageName)
 	if err != nil {
 		return err
@@ -14,7 +19,11 @@ func Uninstall(packageName string, verbose bool) error {
 	if err := ValidateInstalledDefinition(pkg); err != nil {
 		return err
 	}
-
+	if pkg.UninstallLogic != "" {
+		if err := runScriptInDir(DefaultTempDir, pkg.UninstallLogic, verbose); err != nil {
+			return err
+		}
+	}
 	if err := removeRegularPackageFiles(pkg.Files); err != nil {
 		return err
 	}

@@ -8,8 +8,10 @@ import (
 )
 
 func Install(archivePath string, verbose bool) error {
-	// TODO: check if package is already installed
-	// TODO: check if elevated
+	err := isElevated()
+	if err != nil {
+		return err
+	}
 
 	absArchivePath, err := filepath.Abs(archivePath)
 	if err != nil {
@@ -42,6 +44,9 @@ func Install(archivePath string, verbose bool) error {
 		return err
 	}
 	pkg, err := ReadDefinitionFromFile(filepath.Join(absTempDir, DefinitionFileName))
+	if err := isInstalled(pkg.Name); err != nil {
+		return err
+	}
 	if err := ValidateInstalledDefinition(pkg); err != nil {
 		return err
 	}

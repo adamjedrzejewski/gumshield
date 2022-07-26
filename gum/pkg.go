@@ -204,6 +204,23 @@ func getPackageFromIndex(packageName string) (*PackageDefinition, error) {
 	return nil, errors.New("no such package")
 }
 
+func isInstalled(packageName string) error {
+	packages, err := readPackagesFromIndex()
+	if err != nil {
+		return err
+	}
+
+	for _, pkg := range packages {
+		if pkg.Name == packageName {
+			return errors.New("package already installed")
+		}
+	}
+
+	return nil
+}
+
+// TODO: move adding to package index to separete function
+
 func removePackageFromIndex(pkgName string) error {
 	filePath := path.Join(DefaultIndexDir, pkgName+DefinitionFileExtension)
 	_, err := os.Stat(filePath)

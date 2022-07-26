@@ -41,8 +41,6 @@ func createPackageArchive(fromDir, tempDir, outFile string, pkg *PackageDefiniti
 		DefinitionFileName,
 	}
 
-	_ = outFileFiles
-
 	currentDir, err = os.Getwd()
 	if err != nil {
 		return err
