@@ -52,6 +52,8 @@ func registerBuildCommand(parser *argparse.Parser) {
 func registerInstallCommand(parser *argparse.Parser) {
 	install := parser.AddCommand("install", "install package from archive file", &argparse.ParserConfig{})
 	pkgFile := install.String("", "archive_file", &argparse.Option{Positional: true, Help: "path to package archive file", Validate: validateFile})
+	targetDir := install.String("", "target_dir", &argparse.Option{HideEntry: true, Default: gum.RootDir})
+	disableIndex := install.Flag("", "disable_index", &argparse.Option{HideEntry: true})
 	verbose := install.Flag("v", "verbose", &argparse.Option{Help: "print output from underlying processes"})
 
 	install.InvokeAction = func(bool) {
@@ -60,7 +62,7 @@ func registerInstallCommand(parser *argparse.Parser) {
 			log.Fatal(err)
 		}
 
-		err = gum.Install(absPkgFile, *verbose)
+		err = gum.Install(absPkgFile, *targetDir, *verbose, *disableIndex)
 		if err != nil {
 			log.Fatal(err)
 		}

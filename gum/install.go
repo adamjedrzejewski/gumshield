@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 )
 
-func Install(archivePath string, verbose bool) error {
+func Install(archivePath, targetDir string, verbose, disableIndex bool) error {
 	err := isElevated()
 	if err != nil {
 		return err
@@ -50,15 +50,17 @@ func Install(archivePath string, verbose bool) error {
 	if err := ValidateInstalledDefinition(pkg); err != nil {
 		return err
 	}
-	if err := copyDefinitionToIndex(pkg.Name, absTempDir, absIndexDir); err != nil {
-		return err
+	if !disableIndex {
+		if err := copyDefinitionToIndex(pkg.Name, absTempDir, absIndexDir); err != nil {
+			return err
+		}
 	}
 	if pkg.BeforeInstallLogic != "" {
 		if err := runScriptInDir(DefaultTempDir, pkg.BeforeInstallLogic, verbose); err != nil {
 			return err
 		}
 	}
-	if err := extractFilesToRoot(absTempDir); err != nil {
+	if err := extractFilesToDir(absTempDir, targetDir); err != nil {
 		return err
 	}
 	if pkg.AfterInstallLogic != "" {
@@ -73,13 +75,13 @@ func Install(archivePath string, verbose bool) error {
 	return nil
 }
 
-func extractFilesToRoot(fromDir string) error {
+func extractFilesToDir(fromDir, toDir string) error {
 	filesArchive := filepath.Join(fromDir, FilesArchiveFileName)
 	archive, err := os.Open(filesArchive)
 	if err != nil {
 		return err
 	}
-	return extractTar(RootDir, archive)
+	return extractTar(toDir, archive)
 }
 
 func copyDefinitionToIndex(name, sourceDir, destinationDir string) error {

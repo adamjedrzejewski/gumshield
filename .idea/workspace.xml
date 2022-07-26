@@ -11,11 +11,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gum/archive.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/archive.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gum/common.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/common.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commands.go" beforeDir="false" afterPath="$PROJECT_DIR$/commands.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gum/install.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/install.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gum/pkg.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/pkg.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gum/uninstall.go" beforeDir="false" afterPath="$PROJECT_DIR$/gum/uninstall.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sysvinit.elplan" beforeDir="false" afterPath="$PROJECT_DIR$/sysvinit.elplan" afterDir="false" />
     </list>
@@ -87,7 +84,7 @@
     <configuration name="gumshield install" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="gumshield" />
       <working_directory value="$PROJECT_DIR$" />
-      <parameters value="install test.tar" />
+      <parameters value="install test.tar --target_dir / --disable_index -v" />
       <sudo value="true" />
       <kind value="DIRECTORY" />
       <package value="gumshield" />
@@ -192,5 +189,16 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/commands.go</url>
+          <line>64</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
