@@ -149,7 +149,7 @@ func SerializePackageDefinition(pkg *PackageDefinition) (string, error) {
 	return sb.String(), nil
 }
 
-func ValidateInstallDefinition(pkg *PackageDefinition) error {
+func ValidateInstalledDefinition(pkg *PackageDefinition) error {
 	if pkg.BeforeInstallLogic == "" {
 		return errors.New("missing before install script")
 	}
@@ -202,6 +202,21 @@ func getPackageFromIndex(packageName string) (*PackageDefinition, error) {
 	}
 
 	return nil, errors.New("no such package")
+}
+
+func removePackageFromIndex(pkgName string) error {
+	filePath := path.Join(DefaultIndexDir, pkgName+DefinitionFileExtension)
+	_, err := os.Stat(filePath)
+	if err != nil {
+		return err
+	}
+
+	err = os.Remove(filePath)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func setSectionTag(currentSection *string, line string) bool {

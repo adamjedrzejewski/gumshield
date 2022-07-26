@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"github.com/adamjedrzejewski/gumshield/gum"
 	"github.com/hellflame/argparse"
 	"log"
+	"os"
 	"path/filepath"
 )
 
@@ -11,9 +13,9 @@ func registerBuildCommand(parser *argparse.Parser) {
 	build := parser.AddCommand("build", "build package from definition file", &argparse.ParserConfig{})
 	pkgFile := build.String("", "definition_file", &argparse.Option{Positional: true, Help: "path to package definition file"})
 	outFile := build.String("o", "out", &argparse.Option{Help: "path to output package archive"})
-	buildDir := build.String("b", "build_dir", &argparse.Option{Help: "path to build directory"})
-	fakeRootDir := build.String("f", "fake_root_dir", &argparse.Option{Help: "path to fake root directory"})
-	tempDir := build.String("t", "temp_dir", &argparse.Option{Help: "path to temp directory"})
+	buildDir := build.String("b", "build_dir", &argparse.Option{Help: "path to build directory", Default: gum.DefaultBuildDir})
+	fakeRootDir := build.String("f", "fake_root_dir", &argparse.Option{Help: "path to fake root directory", Default: gum.DefaultFakeRootDir})
+	tempDir := build.String("t", "temp_dir", &argparse.Option{Help: "path to temp directory", Default: gum.DefaultTempDir})
 	verbose := build.Flag("v", "verbose", &argparse.Option{Help: "print output from underlying processes"})
 
 	build.InvokeAction = func(bool) {
@@ -27,9 +29,18 @@ func registerBuildCommand(parser *argparse.Parser) {
 		}
 
 		absOutFile := getOutFile(*outFile, pkg.Name)
-		absBuildDir := getBuildDir(*buildDir)
-		absFakeRootDir := getFakeRootDir(*fakeRootDir)
-		absTempDir := getTempDir(*tempDir)
+		absBuildDir, err := filepath.Abs(*buildDir)
+		if err != nil {
+			log.Fatal(err)
+		}
+		absFakeRootDir, err := filepath.Abs(*fakeRootDir)
+		if err != nil {
+			log.Fatal(err)
+		}
+		absTempDir, err := filepath.Abs(*tempDir)
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		err = gum.Build(pkg, absOutFile, absBuildDir, absFakeRootDir, absTempDir, *verbose)
 		if err != nil {
@@ -40,7 +51,7 @@ func registerBuildCommand(parser *argparse.Parser) {
 
 func registerInstallCommand(parser *argparse.Parser) {
 	install := parser.AddCommand("install", "install package from archive file", &argparse.ParserConfig{})
-	pkgFile := install.String("", "archive_file", &argparse.Option{Positional: true, Help: "path to package archive file"})
+	pkgFile := install.String("", "archive_file", &argparse.Option{Positional: true, Help: "path to package archive file", Validate: validateFile})
 	verbose := install.Flag("v", "verbose", &argparse.Option{Help: "print output from underlying processes"})
 
 	install.InvokeAction = func(bool) {
@@ -149,38 +160,13 @@ func getOutFile(input, pkgName string) string {
 	return absFile
 }
 
-func getBuildDir(input string) string {
-	if input == "" {
-		input = gum.DefaultBuildDir
-	}
-
-	absFile, err := filepath.Abs(input)
+func validateFile(path string) error {
+	stat, err := os.Stat(path)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
-	return absFile
-}
-
-func getFakeRootDir(input string) string {
-	if input == "" {
-		input = gum.DefaultFakeRootDir
+	if stat.IsDir() {
+		return fmt.Errorf("%s is a direcotry", path)
 	}
-
-	absFile, err := filepath.Abs(input)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return absFile
-}
-
-func getTempDir(input string) string {
-	if input == "" {
-		input = gum.DefaultTempDir
-	}
-
-	absFile, err := filepath.Abs(input)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return absFile
+	return nil
 }
