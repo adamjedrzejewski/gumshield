@@ -16,6 +16,7 @@ func registerBuildCommand(parser *argparse.Parser) {
 	buildDir := build.String("b", "build_dir", &argparse.Option{Help: "path to build directory", Default: gum.DefaultBuildDir})
 	fakeRootDir := build.String("f", "fake_root_dir", &argparse.Option{Help: "path to fake root directory", Default: gum.DefaultFakeRootDir})
 	tempDir := build.String("t", "temp_dir", &argparse.Option{Help: "path to temp directory", Default: gum.DefaultTempDir})
+	sourcesDir := build.String("", "sources_dir", &argparse.Option{Help: "look for sources in this directory, if sound no sources will be downloaded", Default: gum.DefaultTempDir})
 	verbose := build.Flag("v", "verbose", &argparse.Option{Help: "print output from underlying processes"})
 
 	build.InvokeAction = func(bool) {
@@ -42,7 +43,7 @@ func registerBuildCommand(parser *argparse.Parser) {
 			log.Fatal(err)
 		}
 
-		err = gum.Build(pkg, absOutFile, absBuildDir, absFakeRootDir, absTempDir, *verbose)
+		err = gum.Build(pkg, absOutFile, absBuildDir, absFakeRootDir, absTempDir, *verbose, sourcesDir)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -51,7 +52,10 @@ func registerBuildCommand(parser *argparse.Parser) {
 
 func registerInstallCommand(parser *argparse.Parser) {
 	install := parser.AddCommand("install", "install package from archive file", &argparse.ParserConfig{})
-	pkgFile := install.String("", "archive_file", &argparse.Option{Positional: true, Help: "path to package archive file", Validate: validateFile})
+	pkgFile := install.String("", "archive_file", &argparse.Option{
+		Positional: true,
+		Help:       "path to package archive file",
+		Validate:   validateFile})
 	targetDir := install.String("", "target_dir", &argparse.Option{HideEntry: true, Default: gum.RootDir})
 	disableIndex := install.Flag("", "disable_index", &argparse.Option{HideEntry: true})
 	verbose := install.Flag("v", "verbose", &argparse.Option{Help: "print output from underlying processes"})

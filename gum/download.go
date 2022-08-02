@@ -12,8 +12,10 @@ func downloadSources(sources []string, dir string) error {
 	for _, source := range sources {
 		_, outPath := filepath.Split(source)
 		outPath = filepath.Join(dir, outPath)
-		if err := downloadFile(source, outPath); err != nil {
-			return err
+		if _, err := os.Stat(outPath); os.IsNotExist(err) {
+			if err := downloadFile(source, outPath); err != nil {
+				return err
+			}
 		}
 	}
 
