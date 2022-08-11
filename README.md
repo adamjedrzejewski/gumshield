@@ -15,3 +15,7 @@
 
 ## Definition file
 **Que grande eres Magic**🥵
+
+## TODO
+- refactor
+- documentation
