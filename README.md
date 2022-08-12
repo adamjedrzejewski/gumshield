@@ -1,6 +1,4 @@
 # gumshield package manager
-**Que grande eres Magic**🥵
-
 ## Commands
 ### Command overview
 | command        | description                        |
