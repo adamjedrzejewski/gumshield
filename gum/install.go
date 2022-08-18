@@ -2,7 +2,6 @@ package gum
 
 import (
 	"errors"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 )
@@ -34,6 +33,9 @@ func Install(archivePath, targetDir string, verbose, disableIndex bool) error {
 		return err
 	}
 
+	if _, err := os.Stat(absIndexDir); os.IsNotExist(err) {
+		os.MkdirAll(absIndexDir, 0755)
+	}
 	if err := SetEnvVars(absBuildDir, absFakeRootDir); err != nil {
 		return err
 	}
@@ -99,13 +101,13 @@ func copyDefinitionToIndex(name, sourceDir, destinationDir string) error {
 	}
 
 	sourceFile := filepath.Join(sourceDir, DefinitionFileName)
-	input, err := ioutil.ReadFile(sourceFile)
+	input, err := os.ReadFile(sourceFile)
 	if err != nil {
 		return err
 	}
 
 	destinationFile := filepath.Join(destinationDir, name+DefinitionFileExtension)
-	err = ioutil.WriteFile(destinationFile, input, 0644)
+	err = os.WriteFile(destinationFile, input, 0644)
 	if err != nil {
 		return err
 	}

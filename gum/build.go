@@ -1,7 +1,6 @@
 package gum
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 )
@@ -70,20 +69,6 @@ func getSourcesFromLocalDir(dir *string, outDir string, sources []string) error 
 		if err := copyFile(sourceFile, destinationFile); err != nil {
 			return err
 		}
-	}
-
-	return nil
-}
-
-// TODO: refactor
-func copyFile(sourceFile string, destinationFile string) error {
-	input, err := ioutil.ReadFile(sourceFile)
-	if err != nil {
-		return err
-	}
-	err = ioutil.WriteFile(destinationFile, input, 0644)
-	if err != nil {
-		return err
 	}
 
 	return nil

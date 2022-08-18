@@ -1,8 +1,6 @@
 package main
 
-import (
-	"github.com/hellflame/argparse"
-)
+import "github.com/hellflame/argparse"
 
 func main() {
 	parser := argparse.NewParser("gumshield", "gumshield package manager", nil)

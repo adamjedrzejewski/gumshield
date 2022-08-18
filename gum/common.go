@@ -9,6 +9,13 @@ import (
 	"path/filepath"
 )
 
+const (
+	scriptCommand        = "bash"
+	rootUidString        = "0"
+	currentDirPathString = "."
+)
+
+// SetEnvVars sets environment variables.
 func SetEnvVars(buildDir string, fakeRootDir string) error {
 	if err := os.Setenv(BuildDirEnvVarName, buildDir); err != nil {
 		return err
@@ -20,6 +27,7 @@ func SetEnvVars(buildDir string, fakeRootDir string) error {
 	return nil
 }
 
+// runScriptInDir executes bash script in separate process.
 func runScriptInDir(dir, logic string, verbose bool) error {
 	currentDir, err := os.Getwd()
 	if err != nil {
@@ -31,7 +39,7 @@ func runScriptInDir(dir, logic string, verbose bool) error {
 		return err
 	}
 
-	cmd := exec.Command("bash")
+	cmd := exec.Command(scriptCommand)
 	if verbose {
 		cmd.Stderr = os.Stderr
 		cmd.Stdout = os.Stdout
@@ -62,6 +70,7 @@ func runScriptInDir(dir, logic string, verbose bool) error {
 	return nil
 }
 
+// cleanUpDirs removes directory trees at specified paths.
 func cleanUpDirs(buildDir, fakeRootDir, tempDir string) error {
 	if err := os.RemoveAll(buildDir); err != nil {
 		return err
@@ -76,6 +85,7 @@ func cleanUpDirs(buildDir, fakeRootDir, tempDir string) error {
 	return nil
 }
 
+// prepareDirs cleans up and creates directories.
 func prepareDirs(buildDir, fakeRootDir, tempDir string) error {
 	if err := cleanUpDirs(buildDir, fakeRootDir, tempDir); err != nil {
 		return err
@@ -93,6 +103,7 @@ func prepareDirs(buildDir, fakeRootDir, tempDir string) error {
 	return nil
 }
 
+// listFiles returns listing of all files in directory tree.
 func listFiles(dir string) ([]string, error) {
 	currentDir, err := os.Getwd()
 	if err != nil {
@@ -104,8 +115,8 @@ func listFiles(dir string) ([]string, error) {
 	}
 
 	files := make([]string, 0)
-	err = filepath.Walk(".", func(path string, info fs.FileInfo, err error) error { // TODO: error?
-		if path == "." {
+	err = filepath.Walk(currentDirPathString, func(path string, info fs.FileInfo, err error) error { // TODO: error?
+		if path == currentDirPathString {
 			return nil
 		}
 		//if f, err := os.Stat(path); err != nil || f.IsDir() {
@@ -126,14 +137,30 @@ func listFiles(dir string) ([]string, error) {
 	return files, nil
 }
 
+// isElevated checks if process is running as superuser.
 func isElevated() error {
 	u, err := user.Current()
 	if err != nil {
 		return err
 	}
 
-	if u.Uid != "0" {
+	if u.Uid != rootUidString {
 		return fmt.Errorf("process not running with elevated permission")
+	}
+
+	return nil
+}
+
+// TODO: this function should be able to copy big files as well
+// copyFile is for copying small files.
+func copyFile(sourcePath string, destinationPath string) error {
+	input, err := os.ReadFile(sourcePath)
+	if err != nil {
+		return err
+	}
+	err = os.WriteFile(destinationPath, input, 0644)
+	if err != nil {
+		return err
 	}
 
 	return nil
