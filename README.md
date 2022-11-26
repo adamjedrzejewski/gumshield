@@ -11,9 +11,6 @@
 | show installed | show installed packages            |
 | uninstall      | remove package                     |
 
-## Definition file
-**Que grande eres Magic**🥵
-
 ## TODO
 - refactor
 - documentation
